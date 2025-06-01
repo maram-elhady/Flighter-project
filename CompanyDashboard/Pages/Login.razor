@@ -1,0 +1,101 @@
+﻿@page "/login"
+@inject NavigationManager Navigation
+
+
+@inject IAccountManagement AccountManagement
+
+<div class="d-flex align-items-center justify-content-center min-vh-100 bg-light">
+    <div class="card shadow-lg p-4" style="width: 400px; border-radius: 12px;">
+        <div class="text-center mb-3">
+
+            <h2>Flighter Dashboard</h2>
+            <p class="subtitle">Your journey starts here ✈️</p>
+        </div>
+
+        <EditForm Model="@LoginModel" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+            <ValidationSummary class="alert alert-danger p-2" />
+
+            <div class="mb-3">
+                <label for="email" class="form-label fw-semibold">Email</label>
+                <InputText id="email" class="form-control rounded-3 p-2" @bind-Value="LoginModel.Email" />
+                <ValidationMessage For="@(() => LoginModel.Email)" class="text-danger small" />
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label fw-semibold">Password</label>
+                <InputText id="password" type="password" class="form-control rounded-3 p-2" @bind-Value="LoginModel.Password" />
+                <ValidationMessage For="@(() => LoginModel.Password)" class="text-danger small" />
+            </div>
+
+            <button type="submit" class="btn-login" disabled="@IsLoading">
+                @(IsLoading ? "Logging in..." : "Login")
+            </button>
+
+            @if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                <div class="alert alert-danger mt-3 text-center">@ErrorMessage</div>
+            }
+
+
+        </EditForm>
+    </div>
+</div>
+<style>
+
+    .btn-login {
+        width: 100%;
+        padding: 0.9rem;
+        background-color: #0a1f3d;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: 0.3s;
+        cursor: pointer;
+        margin-top: 1rem;
+    }
+
+        .btn-login:hover {
+            background-color: #1c3f6e;
+        }
+</style>
+
+@code {
+    private LoginModel LoginModel { get; set; } = new();
+    private bool IsLoading = false;
+    private string? ErrorMessage;
+
+    private async Task HandleLogin()
+    {
+        IsLoading = true;
+        ErrorMessage = null;
+
+        var result = await AccountManagement.LoginAsync(LoginModel);
+
+        if (result.Succeeded)
+        {
+            Navigation.NavigateTo("/");
+        }
+        else
+        {
+            ErrorMessage = string.Join("<br>", result.ErrorList);
+        }
+
+        IsLoading = false;
+    }
+
+    [CascadingParameter] private Task<AuthenticationState> AuthStateTask { get; set; }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var authState = await AuthStateTask;
+        var user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            Navigation.NavigateTo("/", forceLoad: true); // Forces a reload 
+        }
+    }
+} 

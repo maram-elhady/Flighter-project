@@ -1,0 +1,69 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\bin\\Release\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
+    },
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\obj\\Release\\net8.0\\compressed\\dlp3vc6wd1.gz",
+      "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
+    },
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\obj\\Release\\net8.0\\scopedcss\\bundle\\CompanyDashboard.styles.css",
+      "PackagePath": "staticwebassets\\CompanyDashboard.styles.css"
+    },
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\Json\\appsettings.Development.json",
+      "PackagePath": "staticwebassets\\Json\\appsettings.Development.json"
+    },
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\Json\\appsettings.Production.json",
+      "PackagePath": "staticwebassets\\Json\\appsettings.Production.json"
+    },
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\css\\app.css",
+      "PackagePath": "staticwebassets\\css\\app.css"
+    },
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\icon-192.png",
+      "PackagePath": "staticwebassets\\icon-192.png"
+    },
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "D:\\Flight 4u\\src\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\sample-data\\weather.json",
+      "PackagePath": "staticwebassets\\sample-data\\weather.json"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.CompanyDashboard.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.build.CompanyDashboard.props",
+      "PackagePath": "build\\CompanyDashboard.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.CompanyDashboard.props",
+      "PackagePath": "buildMultiTargeting\\CompanyDashboard.props"
+    },
+    {
+      "Id": "obj\\Release\\net8.0\\staticwebassets\\msbuild.buildTransitive.CompanyDashboard.props",
+      "PackagePath": "buildTransitive\\CompanyDashboard.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

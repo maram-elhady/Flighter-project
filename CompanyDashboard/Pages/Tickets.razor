@@ -1,0 +1,509 @@
+﻿@using System.Text.RegularExpressions
+@page "/Tickets"
+@attribute [Authorize]
+@inject HttpClient Http
+@inject IAccountManagement AccountManagement
+@inject IAdminManagement AdminManagement
+
+<PageTitle>Bookings</PageTitle>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container mt-4">
+   
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="me-auto">✈️ Flights</h4>
+        @if (!isOwner)
+        {
+            <div class="btn-group me-2">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">
+                    @selectedFilterType
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" @onclick='async () => await SelectFilterType("All")'>All Flights</a></li>
+                    <li><a class="dropdown-item" @onclick='async () => await SelectFilterType("With Offers")'>With Offers</a></li>
+                    <li><a class="dropdown-item" @onclick='async () => await SelectFilterType("Without Offers")'>Without Offers</a></li>
+                </ul>
+            </div>
+            <button type="button" class="btn btn-outline-info" @onclick="ShowForm">➕Add Flight</button>
+        }
+    </div>
+   
+    @if (!string.IsNullOrEmpty(responseMessage))
+    {
+        <div class="alert @alertClass alert-dismissible fade show" role="alert">
+            @responseMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (showFlightForm)
+    {
+        <div class="modal-overlay">
+            <div class="modal-content" @onclick:stopPropagation>
+                <!-- Close Button -->
+                <button type="button" class="btn-close" @onclick="HideForm">✖</button>
+
+                <h4 class="text-center">🛫 Add Flight</h4>
+                <div class="progress-indicator">
+                    <div class="step-circle @(currentStep == 1 ? "active-step" : "")"></div>
+                    <div class="step-circle @(currentStep == 2 ? "active-step" : "")"></div>
+                    <div class="step-circle @(currentStep == 3 ? "active-step" : "")"></div>
+                    <div class="step-circle @(currentStep == 4 ? "active-step" : "")"></div>
+                </div>
+                <hr />
+
+
+
+                @if (currentStep == 1)
+                {
+                    <input @bind="flightDto.From" placeholder="✈️ From" class="form-control mb-2" />
+                    @if (string.IsNullOrWhiteSpace(flightDto.From) && showErrors)
+                    {
+                        <p class="text-danger">This Field is required</p>;
+                    }
+                    <input @bind="flightDto.To" placeholder="🎯 To" class="form-control mb-2" />
+                    @if (string.IsNullOrWhiteSpace(flightDto.To) && showErrors)
+                    {
+                        <p class="text-danger">This Field is required</p>;
+                    }
+                   
+                    <div class="dropdown w-100 mb-3" data-bs-display="static">
+                        <button class="btn btn-outline-primary dropdown-toggle w-100 py-2" type="button" data-bs-toggle="dropdown" >
+                            @selectedFlightTypeName
+                        </button>
+                        <ul class="dropdown-menu w-100">
+                            @foreach (var flightype in FlightTypes)
+                            {
+                                <li>
+                                    <a class="dropdown-item @(flightDto.FlightTypeId == flightype.FlightTypeId ? "active" : "")"
+                                       @onclick="() => SelectFlightType(flightype)">
+
+                                        @flightype.FlightName
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+
+                    @if ((flightDto.FlightTypeId == null || flightDto.FlightTypeId == 0) && showErrors)
+                    {
+                        <p class="text-danger">This is required</p>
+                    }
+                    
+                    <button class="btn btn-primary w-100 py-2" @onclick="NextStep">Next</button>
+                    <br />
+
+                }
+
+
+
+                else if (currentStep == 2 )
+                {
+                    @if (!string.IsNullOrEmpty(ErrorMessage) )
+                    {
+                        <p class="text-danger">@ErrorMessage</p>
+                    }
+                    
+                    <div class="form-two-columns">
+                        <!-- Departure -->
+                        <div class="form-group">
+                            <label for="departureDate">📅 Departure Date</label>
+                            <input id="departureDate" @bind="flightDto.DepartureDate" type="date" class="form-control mb-2"
+                                   min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                            
+                        </div>
+
+                        <div class="form-group">
+                            <label for="departureTime">🕒 Departure Time</label>
+                            <input id="departureTime" @bind="flightDto.DepartureTime" type="time" class="form-control mb-2" />
+                            
+                        </div>
+
+                        <!-- Arrival -->
+                        <div class="form-group">
+                            <label for="arrivalDate">📅 Arrival Date</label>
+                            <input id="arrivalDate" @bind="flightDto.ArrivalDate" type="date" class="form-control mb-2"
+                                   min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                           
+                        </div>
+
+                        <div class="form-group">
+                            <label for="arrivalTime">🕒 Arrival Time</label>
+                            <input id="arrivalTime" @bind="flightDto.ArrivalTime" type="time" class="form-control mb-2" />
+                           
+                        </div>
+                        <!-- Round Trip -->
+                        @if (flightDto.FlightTypeId == roundTripId)
+                        {
+                            <!-- Return Departure -->
+                            <div class="form-group">
+                                <label for="returnDepartureDate">📅 Return Departure Date</label>
+                                <input id="returnDepartureDate" @bind="flightDto.returnDepartureDate" type="date" class="form-control mb-2"
+                                       min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                @if (flightDto.returnDepartureDate == default && flightDto.FlightTypeId == 2 && showErrors)
+                                {
+                                    <p class="text-danger">This is required</p>
+                                }
+                                
+                            </div>
+
+                            <div class="form-group">
+                                <label for="returnDepartureTime">🕘 Return Departure Time</label>
+                                <input id="returnDepartureTime" @bind="flightDto.returnDepartureTime" type="time" class="form-control mb-2" />
+                                @if (flightDto.returnDepartureTime == default && flightDto.FlightTypeId == 2 && showErrors)
+                                {
+                                    <p class="text-danger">This is required</p>
+                                }
+                                
+                            </div>
+
+                            <!-- Return Arrival -->
+                            <div class="form-group">
+                                <label for="returnArrivalDate">📅 Return Arrival Date</label>
+                                <input id="returnArrivalDate" @bind="flightDto.returnArrivalDate" type="date" class="form-control mb-2"
+                                       min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                @if (flightDto.returnArrivalDate == default && flightDto.FlightTypeId == 2 && showErrors)
+                                {
+                                    <p class="text-danger">This is required</p>
+                                }
+                                
+                            </div>
+
+                            <div class="form-group">
+                                <label for="returnArrivalTime">🕓 Return Arrival Time</label>
+                                <input id="returnArrivalTime" @bind="flightDto.returnArrivalTime" type="time" class="form-control mb-2" />
+                                @if (flightDto.returnArrivalTime == default && flightDto.FlightTypeId == 2 && showErrors)
+                                {
+                                    <p class="text-danger">This is required</p>
+                                }
+                                
+                            </div>
+                        }
+
+                    </div>
+                    <button class="btn btn-secondary w-100" @onclick="PreviousStep">Back</button>
+                    <button class="btn btn-primary w-100 mt-2" @onclick="NextStep">Next</button>
+
+                }
+
+
+
+                else if (currentStep == 3)
+                {
+                    <div class="form-two-columns">
+
+                        <div class="form-group">
+                            <label>✈️ Flight Name</label>
+                            <input @bind="flightDto.FlightName" placeholder="Enter Flight Name" class="form-control mb-2" />
+                            @if (string.IsNullOrWhiteSpace(flightDto.FlightName) && showErrors)
+                            {
+                                <p class="text-danger">This Field is required</p>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label>🚪 Gate</label>
+                            <input @bind="flightDto.Gate" placeholder="Enter Gate" class="form-control mb-2" />
+                            @if (string.IsNullOrWhiteSpace(flightDto.Gate) && showErrors)
+                            {
+                                <p class="text-danger">This Field is required</p>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label>🪑 Available Seats</label>
+                            <input @bind="flightDto.AvailableSeats" @bind:event="oninput"
+                                   type="number" min="1" max="24"
+                                   placeholder="Enter Available Seats"
+                                   class="form-control mb-2"
+                                   @onchange="ValidateSeats" />
+                            @if ((!string.IsNullOrEmpty(ErrorMessage) || flightDto.AvailableSeats == 0) && showErrors)
+                            {
+                                <p class="text-danger">@ErrorMessage</p>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label>💵 Price</label>
+                            <input @bind="flightDto.Price" @bind:event="oninput"
+                                   type="number"
+                                   placeholder="Enter price"
+                                   class="form-control mb-2" />
+                            @if (string.IsNullOrWhiteSpace(flightDto.Price) && showErrors)
+                            {
+                                <p class="text-danger">This Field is required </p>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label>🎒 Baggage Allowance</label>
+                            <input @bind="flightDto.BaggageAllowance" @bind:event="oninput"
+                                   placeholder="Enter BaggageAllowance(50 kg max)"
+                                   type="number" min="0" max="50"
+                                   class="form-control mb-2" />
+                            @if ((string.IsNullOrWhiteSpace(flightDto.BaggageAllowance) || int.TryParse(flightDto.BaggageAllowance, out int baggage) && baggage > 50) && showErrors)
+                            {
+                                <p class="text-danger">This Field is required ( 50 KG max )</p>
+                            }
+                        </div>
+
+
+                        <div class="form-group">
+                            <label>🎉Offer %</label>
+                            <input @bind="flightDto.offer_percentage" @bind:event="oninput"
+                                   type="number" min=0 max=100
+                                   placeholder="Enter Offer%"
+                                   class="form-control mb-2" />
+                            @if ((string.IsNullOrWhiteSpace(flightDto.offer_percentage)) && showErrors)
+                            {
+                                <p class="text-danger">This Field is required[1-100]</p>
+                            }
+                        </div>
+
+                        <div class="form-group">
+                            <label>🎫 ClassType</label>
+                            <div class="dropdown w-100 mb-3">
+                                <button class="btn btn-outline-primary dropdown-toggle w-100 py-2" type="button" data-bs-toggle="dropdown">
+                                    @selectedClassTypeName
+                                </button>
+                                <ul class="dropdown-menu w-100">
+                                    @foreach (var classType in ClassTypes)
+                                    {
+                                        <li>
+                                            <a class="dropdown-item @(flightDto.ClassTypeId == classType.classTypeId ? "active" : "")"
+                                               @onclick="() => SelectClassType(classType)">
+                                                @classType.className
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            @if ((flightDto.ClassTypeId == null || flightDto.ClassTypeId == 0) && showErrors)
+                            {
+                                <p class="text-danger">This is required</p>
+                            }
+
+                        </div>
+                        
+
+                    </div> <!-- end two-columns -->
+
+                    <button class="btn btn-secondary w-100" @onclick="PreviousStep">Back</button>
+                    <button class="btn btn-primary w-100 mt-2" @onclick="NextStep">Next</button>
+                }
+
+
+
+                else if (currentStep == 4)
+                {
+                    <h4 class="text-center mb-3">✈️ Select Available Seats</h4>
+
+                    <div class="seat-grid">
+                        @foreach (var seat in Seats)
+                        {
+                            <button class="seat @(seat.IsAvailable ? (SelectedSeats.Contains(seat.SeatLabel) ? "selected" : "available") : "unavailable")"
+                                    disabled="@(TotalSeats == flightDto.AvailableSeats || (SelectedSeats.Count >= flightDto.AvailableSeats && seat.IsAvailable && !SelectedSeats.Contains(seat.SeatLabel)))"
+                                    @onclick="() => ToggleSeat(seat)">
+                                @seat.SeatLabel
+                            </button>
+
+                        }
+                    </div>
+
+                    <p class="text-center text-danger mt-2">Selected Seats: @SelectedSeats.Count / @flightDto.AvailableSeats</p>
+
+                    <button class="btn btn-secondary w-100 mt-3" @onclick="PreviousStep">Back</button>
+                    <button class="btn btn-success w-100 mt-2" @onclick="SubmitFlight">Submit</button>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+ @if (isLoading)
+   {
+    <div class="text-center mt-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+  }
+else if (tickets.Count == 0)
+{
+    <div class="text-center mt-5">
+        <h5 class="text-muted">No tickets available.</h5>
+    </div>
+}
+else
+{
+    @foreach (var ticket in tickets)
+    {
+        <div class="ticket-card mb-4 p-4 rounded-4 shadow" style="background: linear-gradient(135deg, #f8f9fa, #e0f7fa); border-left: 6px solid #17a2b8;">
+            @if (!isOwner)
+            {
+                <button class="btn btn-danger position-absolute top-0 end-0 m-2 rounded-circle shadow"
+                        style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"
+                        @onclick="@(() => ConfirmDelete(ticket.TicketId))"
+                        title="Delete Ticket">
+                    <i class="bi bi-trash-fill" style="font-size: 1.2rem; color: white;"></i>
+                </button>
+            }
+            <h5 class="mb-1 text-info fw-bold">@ticket.Flight.FromLocation → @ticket.Flight.ToLocation</h5>
+            <div class="mb-3">
+                <span class="badge bg-info text-white">@ticket.Flight.FlightType</span>
+            </div>
+            <small class="text-muted">Operated by <b>@ticket.Company.CompanyName</b></small>
+
+            <hr />
+
+            <!-- Departure Trip -->
+            <div class="row align-items-center mb-3">
+                <div class="col text-start">
+                    <div class="text-primary fw-semibold">
+                        <i class="bi bi-clock-fill"></i> @ticket.Schedule.DepartureTime
+                    </div>
+                    <div class="text-muted">
+                        <i class="bi bi-geo-alt-fill"></i> @ticket.Flight.FromLocation
+                    </div>
+                    <div class="text-muted small">@ticket.Schedule.DepartureDate.ToShortDateString()</div>
+                </div>
+
+                <div class="col text-center">
+                    <div class="text-dark fw-bold">🛫 → 🛬</div>
+                    <div class="small text-muted">
+                        Duration:
+                        @if (ticket.Schedule.DurationInMinutes >= 120)
+                        {
+                            var hours = ticket.Schedule.DurationInMinutes / 60;
+                            var minutes = ticket.Schedule.DurationInMinutes % 60;
+                            @($"{hours}:{minutes:D2} hrs")
+                        }
+                        else
+                        {
+                            @($"{ticket.Schedule.DurationInMinutes} Mins")
+                        }
+                    </div>
+                </div>
+
+                <div class="col text-end">
+                    <div class="text-success fw-semibold">
+                        <i class="bi bi-clock-fill"></i> @ticket.Schedule.ArrivalTime
+                    </div>
+                    <div class="text-muted">
+                        <i class="bi bi-geo-alt-fill"></i> @ticket.Flight.ToLocation
+                    </div>
+                    <div class="text-muted small">@ticket.Schedule.ArrivalDate.ToShortDateString()</div>
+                </div>
+            </div>
+
+            <!-- Round Trip -->
+            @if (ticket.Schedule.ReturnDepartureDate != null)
+            {
+                <div class="row align-items-center">
+                    <div class="col text-start">
+                        <div class="text-primary fw-semibold">
+                            <i class="bi bi-clock-fill"></i> @ticket.Schedule.ReturnDepartureTime
+                        </div>
+                        <div class="text-muted">
+                            <i class="bi bi-geo-alt-fill"></i> @ticket.Flight.ToLocation
+                        </div>
+                        <div class="text-muted small">@ticket.Schedule.ReturnDepartureDate?.ToShortDateString()</div>
+                    </div>
+
+                    <div class="col text-center">
+                        <div class="text-dark fw-bold">🛬 ← 🛫</div>
+                        <div class="small text-muted">Return</div>
+                    </div>
+
+                    <div class="col text-end">
+                        <div class="text-success fw-semibold">
+                            <i class="bi bi-clock-fill"></i> @ticket.Schedule.ReturnArrivalTime
+                        </div>
+                        <div class="text-muted">
+                            <i class="bi bi-geo-alt-fill"></i> @ticket.Flight.FromLocation
+                        </div>
+                        <div class="text-muted small">@ticket.Schedule.ReturnArrivalDate?.ToShortDateString()</div>
+                    </div>
+                </div>
+            }
+
+            <hr />
+
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="fw-bold fs-5 text-danger">@ticket.Price EGP</div>
+                <button class="btn btn-sm btn-outline-info rounded-pill px-3"
+                        @onclick="() => ToggleDetails(ticket.TicketId)">
+                    @(showDetailsId == ticket.TicketId ? "Hide Details" : "View Details")
+                </button>
+            </div>
+
+            @if (showDetailsId == ticket.TicketId)
+            {
+                <div class="mt-4 p-3 rounded bg-white border">
+                    <h6 class="text-secondary mb-3">Ticket Full Details</h6>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Ticket ID:</strong> @ticket.TicketId</p>
+                            <p><strong>Flight Number:</strong> @ticket.FlightNumber</p>
+                            <p><strong>Gate:</strong> @ticket.Gate</p>
+                            <p><strong>Class:</strong> @ticket.ClassType</p>
+                            <p><strong>Baggage Allowance:</strong> @ticket.BaggageAllowance</p>
+                            @*  <p><strong>Available Seats:</strong> @ticket.AvailableSeats / @ticket.TotalSeats</p> *@
+                        </div>
+                        <div class="col-md-6">
+                            @if (ticket.OfferPercentage != null && ticket.OfferPercentage != "0")
+                            {
+                                <p><strong>Offer:</strong> @ticket.OfferPercentage% OFF</p>
+                            }
+                            <p><strong>Company:</strong> @ticket.Company.CompanyName</p>
+                            <p><strong>From:</strong> @ticket.Flight.FromLocation</p>
+                            <p><strong>To:</strong> @ticket.Flight.ToLocation</p>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <h6 class="text-secondary">Seats</h6>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var seat in ticket.SeatNames)
+                        {
+                            <li class="list-group-item d-flex justify-content-between">
+                                @seat.SeatName
+                                <span class="badge @(seat.IsBooked ? "bg-danger" : "bg-success")">
+                                    @(seat.IsBooked ? "Booked" : "Available")
+                                </span>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            }
+        </div>
+    }
+}
+
+
+@if (showDeleteModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger">Confirm Delete</h5>
+                    <button type="button" class="btn-close" @onclick="CancelDelete"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this ticket?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CancelDelete">Cancel</button>
+                    <button class="btn btn-danger" @onclick="DeleteConfirmed">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+
+
+}

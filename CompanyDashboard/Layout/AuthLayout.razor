@@ -1,0 +1,28 @@
+﻿@inherits LayoutComponentBase
+@inject NavigationManager Navigation
+
+
+<main class="container">
+    @if (Navigation.Uri.Contains("/login"))
+    {
+        <div class="row align-items-center justify-content-center min-vh-100 gx-0">
+            @Body
+        </div>
+    }
+    
+</main>
+
+@code {
+    [CascadingParameter] private Task<AuthenticationState> AuthStateTask { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var authState = await AuthStateTask;
+        var user = authState.User;
+
+        if (!user.Identity.IsAuthenticated && !Navigation.Uri.Contains("/login"))
+        {
+            Navigation.NavigateTo("/login", forceLoad: true); // Force full reload
+        }
+    }
+}

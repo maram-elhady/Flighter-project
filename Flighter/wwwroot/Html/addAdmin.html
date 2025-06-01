@@ -1,0 +1,326 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title> Dashboard</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    
+
+
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav  sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #2fa4e7; position: fixed; left: 0; top: 0; text-align: left; height:800px ">
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+
+                <div class="sidebar-brand-text mx-3" style="color: #fff ; font-size: 35px; margin-top: 30px;">Dashboard</div>
+            </a>
+
+            <!-- Divider -->
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="index.html">
+                    <br>
+                    <i class="fas fa-fw fa-tachometer-alt" style="color: #fff; font-size: 20px;"></i>
+                    <span style="color: #fff; font-size: 22px; position: fixed; left: 50px; top: 100px ">Statistics</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item active">
+                <a class="nav-link collapsed" href="addAdmin.html">
+
+                    <i class='fas fa-male' style=" color:#fff ; font-size: 24px;"></i>
+                    <span style="font-size: 22px; color: #fff; position: fixed; left: 50px; top: 150px ">
+                        Admins
+                    </span>
+                </a>
+
+            </li>
+            <hr class="sidebar-divider">
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item active">
+                <a class="nav-link collapsed" aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class='fas fa-people-carry' style='font-size:24px; color:#fff;'></i>
+                    <span style="font-size: 20px; color: #fff; position: fixed; left: 50px; top: 200px ">
+                        Offers
+                    </span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+
+                </div>
+            </li>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <li class="nav-item active">
+                <a class="nav-link collapsed" aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class='fas fa-people-carry' style='font-size:24px; color: #fff;'></i>
+                    <span style="font-size: 20px; color: #fff; position: fixed; left: 50px; top: 250px ">
+                        Flights
+                    </span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+
+                </div>
+            </li>
+
+
+            <!-- Divider -->
+            <!-- Divider -->
+            <!-- Nav Item - Charts -->
+
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="">
+
+            </div>
+
+            <!-- Sidebar Message -->
+            <div class="">
+
+                <p class=""><strong></strong> </p>
+                <a class="" href=""></a>
+            </div>
+
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+
+                <!-- End of Topbar -->
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-800" style="color: #2fa4e7; position: fixed; left:215px; top:10px; text-align: left;"></h1>
+
+                    </div>
+
+                    <!-- Content Row -->
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                            margin: 20px;
+                        }
+
+                        .header {
+                            display: flex;
+                            align-items: center;
+                            margin-bottom: 20px;
+                        }
+
+                            .header h1 {
+                                font-size: 1.5rem;
+                                margin-right: 10px;
+                                color: #333;
+                            }
+
+                        #addButton {
+                            padding: 5px 20px;
+                            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                            font-size: 1rem;
+                            color: white;
+                            background-color: dodgerblue;
+                            border: none;
+                            border-radius: 5px;
+                            cursor: pointer;
+                            transition: background-color 0.3s ease;
+                        }
+
+                            #addButton:hover {
+                                background-color: #333;
+                            }
+
+                        table {
+                            width: 80%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                            margin-left: 190px;
+                        }
+
+                        th, td {
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                            text-align: center;
+                        }
+
+                        th {
+                            background-color: #f4f4f4;
+                        }
+
+                        .form-popup {
+                            display: none;
+                            position: fixed;
+                            top: 30%;
+                            left: 50%;
+                            transform: translate(-50%, -30%);
+                            border: 1px solid #ccc;
+                            background: white;
+                            padding: 15px;
+                            z-index: 1000;
+                            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+                        }
+
+                            .form-popup input {
+                                margin-bottom: 10px;
+                                width: calc(100% - 20px);
+                                padding: 8px;
+                            }
+
+                            .form-popup button {
+                                padding: 8px 15px;
+                                background-color: dodgerblue;
+                                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                                color: white;
+                                border: none;
+                                cursor: pointer;
+                            }
+
+                                .form-popup button:hover {
+                                    background-color: #333;
+                                }
+
+                        .delete-btn {
+                            background-color: #dc3545;
+                            color: white;
+                            border: none;
+                            padding: 5px 10px;
+                            cursor: pointer;
+                        }
+
+                            .delete-btn:hover {
+                                background-color: #c82333;
+                            }
+
+                        .overlay {
+                            display: none;
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background-color: rgba(0, 0, 0, 0.5);
+                            z-index: 999;
+                        }
+                    </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <h1 style="color: #2fa4e7; margin-left: 200px; margin-right: 0px; margin-top: 10px">Add Admins</h1>
+                            <button style="margin-left: 950px; margin-right: 50px; margin-top:10px" id="addButton">Add</button>
+                        </div>
+                        <div class="overlay" id="overlay"></div>
+                        <div class="form-popup" id="formPopup">
+                            <h3>Add Admin</h3>
+                            <input type="text" id="adminEmail" placeholder="Admin Email" required>
+                            <input type="text" id="adminRole" placeholder="Admin Role" required>
+                            <button id="submitButton">Add</button>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Admin</th>
+                                    <th>Role</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminTableBody">
+                                <!-- Rows will be dynamically added here -->
+                            </tbody>
+                        </table>
+
+                        <script>
+                            const addButton = document.getElementById('addButton');
+                            const formPopup = document.getElementById('formPopup');
+                            const overlay = document.getElementById('overlay');
+                            const submitButton = document.getElementById('submitButton');
+                            const adminTableBody = document.getElementById('adminTableBody');
+
+                            // Show the form popup
+                            addButton.addEventListener('click', () => {
+                                formPopup.style.display = 'block';
+                                overlay.style.display = 'block';
+                            });
+
+                            // Hide the form popup
+                            const closeForm = () => {
+                                formPopup.style.display = 'none';
+                                overlay.style.display = 'none';
+                            };
+
+                            overlay.addEventListener('click', closeForm);
+
+                            // Add admin to the table
+                            submitButton.addEventListener('click', () => {
+                                const adminEmail = document.getElementById('adminEmail').value.trim();
+                                const adminRole = document.getElementById('adminRole').value.trim();
+
+                                if (adminEmail && adminRole) {
+                                    // Create a new row
+                                    const row = document.createElement('tr');
+                                    row.innerHTML = `
+                                                                                                    <td>${adminEmail}</td>
+                                                                                                    <td>${adminRole}</td>
+                                                                                                    <td><button class="delete-btn">Delete</button></td>
+                                                                                                `;
+
+                                    // Append the row to the table body
+                                    adminTableBody.appendChild(row);
+                                    // Add delete functionality to the new button
+                                    row.querySelector('.delete-btn').addEventListener('click', () => {
+                                        row.remove();
+                                    });
+
+                                    // Clear inputs and close the form
+                                    document.getElementById('adminEmail').value = '';
+                                    document.getElementById('adminRole').value = '';
+                                    closeForm();
+                                } else {
+                                    alert('Please fill in both fields.');
+                                }
+                            });
+                        </script>
+                        <!-- End of Main Content -->
+
+
+                </div>
+                    <!-- End of Content Wrapper -->
+
+                </div>
+            <!-- End of Page Wrapper -->
+            
+
+</body>
+
+</html>

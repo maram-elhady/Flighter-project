@@ -1,0 +1,6 @@
+@Flighter_HostAddress = http://localhost:5296
+
+GET {{Flighter_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

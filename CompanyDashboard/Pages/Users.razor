@@ -1,0 +1,197 @@
+﻿@page "/all-users"
+@attribute [Authorize]
+@inject HttpClient Http
+@inject IAccountManagement AccountManagement
+@inject IAdminManagement AdminManagement
+
+<div class="user-overview-container">
+    <h2 class="user-overview-title">User Overview</h2>
+    @if (!string.IsNullOrEmpty(responseMessage))
+    {
+        <div class="alert @alertClass alert-dismissible fade show mt-3" role="alert">
+            @responseMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" @onclick="() => responseMessage = null"></button>
+        </div>
+    }
+
+    @if (isLoading)
+    {
+        <div class="text-center mt-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else if (@userStats.TotalUsers == 0)
+    {
+        <div class="text-center mt-5">
+            <h5 class="text-muted">No users available.</h5>
+        </div>
+    }
+    else
+    {
+        <div class="user-stats mb-4">
+            <div class="stat-card">
+                <div class="stat-title">Total Users</div>
+                <div class="stat-value">@userStats.TotalUsers</div>
+            </div>
+        </div>
+
+        <div class="user-table-container">
+            <div class="user-table-title mb-2">Registered Users</div>
+
+            @if (!userStats.Users.Any())
+            {
+                <p class="p-4 text-gray-600">No users found.</p>
+            }
+            else
+            {
+                <table class="table table-striped table-bordered">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            @if (isOwner)
+                            {
+                                <th>Action</th>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in userStats.Users)
+                        {
+                            <tr>
+                                <td>@user.Name</td>
+                                <td>@user.Email</td>
+                                @if (isOwner)
+                                {
+                                    <td>
+                                        <button class="btn btn-danger btn-sm rounded-circle shadow"
+                                                style="width: 32px; height: 32px;"
+                                                @onclick="@(() => ConfirmDelete(user.Email))"
+                                                title="Delete User">
+                                            <i class="bi bi-trash-fill text-white" style="font-size: 1rem;"></i>
+                                        </button>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    }
+</div>
+
+@if (showDeleteModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger">Confirm Delete</h5>
+                    <button type="button" class="btn-close" @onclick="CancelDelete"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this user?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CancelDelete">Cancel</button>
+                    <button class="btn btn-danger" @onclick="DeleteConfirmed">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool isLoading = true;
+    private UserStatsDto? userStats;
+    private bool isOwner = false;
+    private string? responseMessage;
+    private string alertClass = "alert-info";
+    private Timer? _timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var cookieProvider = AccountManagement as CookieAuthenticationStateProvider;
+        if (cookieProvider != null)
+        {
+            var authState = await cookieProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            isOwner = user.Identity != null && user.Identity.Name == "flighter924@gmail.com";
+        }
+        
+            await LoadUserStatsAsync();
+        
+        // Poll every 10 seconds
+        _timer = new Timer(async _ =>
+        {
+            await InvokeAsync(async () =>
+            {
+                await LoadUserStatsAsync();
+                StateHasChanged();
+            });
+        }, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
+    }
+
+    private async Task LoadUserStatsAsync()
+    {
+        isLoading = true;
+        userStats = await AdminManagement.GetAllUsersAsync();
+        isLoading = false;
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+
+
+    //delete user
+    private bool showDeleteModal = false;
+    private string EmailToDelete = string.Empty;
+
+    private void ConfirmDelete(string userEmail)
+    {
+        EmailToDelete = userEmail;
+        showDeleteModal = true;
+    }
+
+    private void CancelDelete()
+    {
+        EmailToDelete = string.Empty;
+        showDeleteModal = false;
+    }
+
+    private async Task DeleteConfirmed()
+    {
+        if (!string.IsNullOrWhiteSpace(EmailToDelete))
+        {
+            var (isSuccess, message) = await AdminManagement.Deleteuser(EmailToDelete);
+            if (isSuccess)
+            {
+                userStats.Users.RemoveAll(a => a.Email == EmailToDelete);
+
+            }
+
+            EmailToDelete = string.Empty;
+            showDeleteModal = false;
+
+            await ShowMessage(message, isSuccess ? "alert-success" : "alert-danger");
+        }
+    }
+
+    private async Task ShowMessage(string message, string alertType)
+    {
+        responseMessage = message;
+        alertClass = alertType;
+        StateHasChanged();
+
+        await Task.Delay(3000);
+
+        responseMessage = null;
+        StateHasChanged(); // Ensure UI updates
+    }
+}
+

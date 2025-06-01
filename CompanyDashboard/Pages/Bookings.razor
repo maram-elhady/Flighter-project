@@ -1,0 +1,111 @@
+﻿@page "/Bookings"
+@attribute [Authorize]
+@inject HttpClient Http
+@inject IAccountManagement AccountManagement
+@inject IAdminManagement adminManagement
+
+<PageTitle>Booking Details</PageTitle>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-primary">Booking Details</h4>
+    </div>
+
+    @if (!string.IsNullOrEmpty(responseMessage))
+    {
+        <div class="alert @alertClass alert-dismissible fade show" role="alert">
+            @responseMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+   @if (isLoading)
+   {
+    <div class="text-center mt-5">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+  }
+   else if (bookingList.Count == 0)
+    {
+        <div class="text-center mt-5">
+            <h5 class="text-muted">No bookings available.</h5>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var booking in bookingList)
+            {
+                <div class="col-md-6">
+                    <div class="card border-primary shadow-sm mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">Ticket Id: @booking.ticketid</h5>
+                            <p><strong>Flight #:</strong>  @booking.FlightNumber</p>
+                            <p><strong>User Email:</strong> @booking.userEmail</p>
+                            <p><strong>Company Name:</strong> @booking.CompanyName</p>
+                            <p><strong>Booking Date:</strong> @booking.BookingDate.ToString("f")</p>
+                            <p><strong>Departure Date:</strong> @booking.DepartureDate.ToString("d")</p>
+                            <p><strong>Seats:</strong> @string.Join(", ", booking.ReservedSeats)</p>
+                            <p><strong>Payment:</strong> <span class="badge bg-@(booking.PaymentStatus == "Paid" ? "success" : "danger")">@booking.PaymentStatus</span></p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private List<BookingDetailsDto> bookingList = new();
+    private string? responseMessage;
+    private string alertClass = "alert-info";
+    private bool isLoading = true;
+    private Timer? _timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        
+        await LoadBookingData();
+        // Poll every 10 seconds
+        _timer = new Timer(async _ =>
+        {
+            await InvokeAsync(async () =>
+            {
+                await LoadBookingData();
+                StateHasChanged();
+            });
+        }, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
+    }
+
+    private async Task LoadBookingData()
+    {
+        isLoading = true;
+        var (isSuccess, message, bookings) = await adminManagement.LoadBookings();
+        isLoading = false;
+        if (!isSuccess)
+        {
+            await ShowMessage(message, "alert-danger");
+            return;
+        }
+
+        bookingList = bookings;
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+    private async Task ShowMessage(string message, string alertType)
+    {
+        responseMessage = message;
+        alertClass = alertType;
+        StateHasChanged();
+
+        await Task.Delay(3000);
+        responseMessage = null;
+        StateHasChanged();
+    }
+}

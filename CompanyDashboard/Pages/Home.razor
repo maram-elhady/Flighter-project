@@ -1,0 +1,150 @@
+﻿@page "/"
+
+<div class="dashboard-wrapper">
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Welcome, <span class="highlight">Flighters</span>🛫</h1>
+            <p>Secure, simple, and smart flight management for Owners and Company Admins.</p>
+        </header>
+
+        <section class="dashboard-cards">
+            <div class="card owner-card">
+                <h2>👑 Owner Privileges</h2>
+                <ul>
+                    <li>Securely add or remove admins</li>
+                    <li>Full control over dashboard features</li>
+                    <li>Role-based access with high security</li>
+                </ul>
+            </div>
+
+            <div class="card admin-card">
+                <h2>🏢 Admin Features</h2>
+                <ul>
+                    <li>Add, edit, and delete flight tickets</li>
+                    <li>View detailed ticket and booking info</li>
+                    <li>Manage user reservations</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="why-section">
+            <h2>✨ Why Choose Flighter?</h2>
+            <p>
+                Flighter offers a clean, reliable, and secure environment for managing airline operations.
+                Whether you're an Owner or Admin, every tool is designed to be intuitive and efficient.
+            </p>
+        </section>
+
+        <footer class="dashboard-footer">
+            🚀 Use the left menu to get started.
+        </footer>
+    </div>
+</div>
+
+<style>
+    .dashboard-wrapper {
+        background: linear-gradient(to right, #fdfbfb, #ebedee);
+        min-height: 100vh;
+        padding: 40px 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .dashboard-container {
+        max-width: 1100px;
+        margin: auto;
+        background: #fff;
+        border-radius: 24px;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.05);
+        padding: 50px;
+    }
+
+    .dashboard-header {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+        .dashboard-header h1 {
+            font-size: 42px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .dashboard-header .highlight {
+            color: #e91e63;
+        }
+
+        .dashboard-header p {
+            font-size: 18px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+    .dashboard-cards {
+        display: flex;
+        gap: 30px;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .card {
+        flex: 1 1 45%;
+        background: linear-gradient(to bottom right, #f0f4ff, #ffffff);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
+        }
+
+    .owner-card {
+        background: linear-gradient(to bottom right, #ffe3ec, #fff5f9);
+    }
+
+    .admin-card {
+        background: linear-gradient(to bottom right, #e0f7ff, #f1fbff);
+    }
+
+    .card h2 {
+        font-size: 24px;
+        color: #444;
+        margin-bottom: 15px;
+    }
+
+    .card ul {
+        padding-left: 20px;
+        color: #555;
+        font-size: 16px;
+    }
+
+    .why-section {
+        margin-top: 60px;
+        text-align: center;
+        background: #f3f0ff;
+        padding: 40px;
+        border-radius: 20px;
+    }
+
+        .why-section h2 {
+            font-size: 28px;
+            color: #6a1b9a;
+            margin-bottom: 20px;
+        }
+
+        .why-section p {
+            font-size: 17px;
+            color: #555;
+            max-width: 700px;
+            margin: auto;
+        }
+
+    .dashboard-footer {
+        text-align: center;
+        color: #999;
+        font-size: 14px;
+        margin-top: 40px;
+    }
+</style>

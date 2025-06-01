@@ -1,0 +1,73 @@
+﻿:root {
+    --main-color: #19c8fa;
+    --transparent-color: rgb(15 116 143 / 70%);
+}
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    background-color: #19c8fa; /* Blue background */
+}
+
+/* Centralize and style the login container */
+.login {
+    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white */
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px; /* Limit the maximum width */
+    color: #333;
+    text-align: center;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 600px) {
+    body {
+        padding: 10px; /* Add padding for smaller screens */
+    }
+
+    .login {
+        width: 90%; /* Reduce width on smaller screens */
+    }
+}
+
+/* Input and Button Styling */
+.login input {
+    width: 90%;
+    margin: 10px auto;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+button {
+    background: #0FAB8C;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 90%;
+    margin-top: 20px;
+}
+
+    button:hover {
+        background: #088D6D; /* Darker green on hover */
+    }

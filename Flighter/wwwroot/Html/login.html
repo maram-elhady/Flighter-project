@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"> <!-- Load Bootstrap first -->
+    
+</head>
+
+<body>
+    <div class="login">
+        <h2 style="text-align:center">Welcome Back!</h2>
+        <p style="text-align:center">Login to your account</p>
+        <form onsubmit="handleLogin(event)" style="max-width: 400px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); font-family: Arial, sans-serif;">
+            <h2 style="text-align: center; color: #333;">Login</h2>
+
+            <div style="margin-bottom: 15px;">
+                <label for="Email" style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">Email Address</label>
+                <input type="email" id="Email" name="email" placeholder="Enter your email" required
+                       style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;">
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label for="password" style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required
+                       style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px;">
+            </div>
+
+            <button type="submit"
+                    style="width: 100%; padding: 10px; background-color: #2fa4e7; color: #fff; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; transition: background-color 0.3s ease;">
+                Login
+            </button>
+        </form>
+
+    </div>
+
+    <script>
+        async function handleLogin(event) {
+            event.preventDefault(); // Prevents the default form submission behavior
+
+            // Get the email and password input values
+            const email = document.getElementById('Email').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                // Send a POST request to the backend API with login data
+                const response = await fetch('/api/Dashboard/Home', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (response.ok) {
+                    // If login is successful, get the RedirectUrl from the response
+                    const data = await response.json();
+                    const redirectUrl = data.RedirectUrl || '/Html/index.html';
+                    window.location.href = redirectUrl; // Redirect the user
+                } else {
+                    // Handle invalid login credentials
+                    alert('Invalid credentials. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error during login:', error);
+                alert('An error occurred. Please try again later.');
+            }
+        }
+    </script>
+
+</body>
+
+</html>

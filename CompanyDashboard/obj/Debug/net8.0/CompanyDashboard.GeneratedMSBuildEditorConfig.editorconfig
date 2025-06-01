@@ -1,0 +1,71 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = CompanyDashboard
+build_property.RootNamespace = CompanyDashboard
+build_property.ProjectDir = D:\Flighter f\Src Flighter(.Net)\CompanyDashboard\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\Flighter f\Src Flighter(.Net)\CompanyDashboard
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/Layout/AuthLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XEF1dGhMYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/Layout/RedirectToLogin.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XFJlZGlyZWN0VG9Mb2dpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/Pages/Bookings.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQm9va2luZ3MucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/Pages/Company.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcGFueS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/Pages/Tickets.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGlja2V0cy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/Pages/Users.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlcnMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-ft039z0f5o
+
+[D:/Flighter f/Src Flighter(.Net)/CompanyDashboard/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-09k6fozqo1

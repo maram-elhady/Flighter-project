@@ -1,0 +1,311 @@
+﻿@page "/Company"
+
+@attribute [Authorize]
+@inject HttpClient Http
+@inject IAccountManagement AccountManagement
+@inject IAdminManagement AdminManagement
+
+
+<PageTitle>Companies</PageTitle>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<style>
+.card .delete-btn {
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.card:hover .delete-btn {
+    opacity: 1;
+}
+</style>
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-primary">Admins</h4>
+        @if(isOwner){
+        <div class="d-flex gap-2 ms-auto">
+            <button class="btn btn-warning px-4" @onclick="ShowForm">
+                <i class="bi bi-plus-lg"></i> Add
+            </button>
+            @* <button class="btn btn-danger" @onclick="ShowDeleteForm">Delete </button> *@
+        </div>
+       }
+    </div>
+    @if (!string.IsNullOrEmpty(responseMessage))
+    {
+        <div class="alert @alertClass alert-dismissible fade show" role="alert">
+            @responseMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (showCompanyForm)
+    {
+        <div class="modal-overlay">
+            <div class="modal-content p-4 shadow-lg rounded" @onclick:stopPropagation>
+                <h5 class="text-center text-primary">Add New Admin</h5>
+                <hr />
+
+                <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input @bind="Email" placeholder="Enter admin email" class="form-control" />
+                </div>
+
+                <div class="dropdown w-100">
+                    <button class="btn btn-primary dropdown-toggle w-100" type="button" data-bs-toggle="dropdown">
+                        @selectedCompanyName
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                        @foreach (var company in companies)
+                        {
+                            <li>
+                                <a class="dropdown-item @(selectedCompanyId == company.CompanyId ? "active" : "")"
+                                   @onclick="() => SelectCompany(company)">
+                                    @company.CompanyName
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+               
+                <div class="d-grid gap-2 mt-3">
+                    <button @onclick="SubmitAdmin" class="btn btn-success">Submit</button>
+                    <button @onclick="HideForm" class="btn btn-secondary">Cancel</button>
+                    <br />
+                </div>
+               
+            </div>
+        </div>
+        
+    }
+
+    @if (isLoading)
+    {
+        <div class="text-center mt-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else if (admins.Count == 0)
+    {
+        <div class="text-center mt-5">
+            <h5 class="text-muted">No admins available.</h5>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var admin in admins)
+            {
+                <div class="col-md-4">
+                    <div class="card border-primary shadow-sm mb-4 position-relative">
+                        @if (isOwner)
+                        {
+                            <button class="btn btn-danger delete-btn position-absolute top-0 end-0 m-2 rounded-circle shadow"
+                                    style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;"
+                                    @onclick="@(() => ConfirmDelete(admin.Email))"
+                                    title="Delete Admin">
+                                <i class="bi bi-trash-fill" style="font-size: 1.2rem; color: white;"></i>
+                            </button>
+                        }
+
+                        <div class="card-body">
+                            <h5 class="card-title text-primary fw-bold">@admin.Company</h5>
+                            <p class="card-text text-muted">@admin.Email</p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+
+</style>
+
+
+@if (showDeleteModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger">Confirm Delete</h5>
+                    <button type="button" class="btn-close" @onclick="CancelDelete"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this Admin?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" @onclick="CancelDelete">Cancel</button>
+                    <button class="btn btn-danger" @onclick="DeleteConfirmed">Yes, Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    private bool showCompanyForm = false;
+    private bool DeleteForm = false;
+
+    
+    private List<AdminCompanyDto> admins = new();
+    private string Email = string.Empty;
+    private string selectedCompanyName = "Select Company";
+    private int? selectedCompanyId = null; 
+    private List<GetCompanyDto> companies = new(); 
+
+    private string? responseMessage;
+    private string alertClass = "alert-info";
+    private bool isOwner = false;
+    private bool isLoading = true;
+    private Timer? _timer;
+    private async Task LoadAdminsData()
+    {
+        isLoading = true;
+        var (isSuccess, message, adminsList) = await AdminManagement.LoadAdmins();
+        isLoading = false;
+        if (!isSuccess)
+        {
+            await ShowMessage(message, "alert-danger");
+        }
+
+        admins = adminsList;
+        StateHasChanged();
+    }
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        var cookieProvider = AccountManagement as CookieAuthenticationStateProvider;
+        if (cookieProvider != null)
+        {
+            var authState = await cookieProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            isOwner = user.Identity != null && user.Identity.Name == "flighter924@gmail.com";
+        }
+        companies = await AdminManagement.GetCompanies();
+        await LoadAdminsData();
+        _timer = new Timer(async _ =>
+       {
+           await InvokeAsync(async () =>
+           {
+               await LoadAdminsData();
+               StateHasChanged();
+           });
+       }, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));
+    }
+
+    public void Dispose()
+    {
+        _timer?.Dispose();
+    }
+
+    private async Task SubmitAdmin()
+    {
+       
+        var (isSuccess, message) = await AdminManagement.SubmitAdmin(Email, selectedCompanyId.Value);
+
+        if (isSuccess)
+        {
+            showCompanyForm = false;
+            admins.Add(new AdminCompanyDto { Email = Email, Company = selectedCompanyName });
+
+        }
+        showCompanyForm = false;
+        await ShowMessage(message, isSuccess ? "alert-success" : "alert-danger");
+        Email = string.Empty;
+        selectedCompanyId = null;
+        selectedCompanyName = "Select Company";
+    }
+
+
+
+    private async Task ShowMessage(string message, string alertType)
+    {
+        responseMessage = message;
+        alertClass = alertType;
+        StateHasChanged();
+
+        await Task.Delay(3000);
+
+        responseMessage = null;
+        StateHasChanged(); // Ensure UI updates 
+    }
+
+    //delete Admin
+    private bool showDeleteModal = false;
+    private string EmailToDelete = string.Empty;
+
+    private void ConfirmDelete(string adminEmail)
+    {
+        EmailToDelete = adminEmail;
+        showDeleteModal = true;
+    }
+
+    private void CancelDelete()
+    {
+        EmailToDelete = string.Empty;
+        showDeleteModal = false;
+    }
+
+    private async Task DeleteConfirmed()
+    {
+        if (!string.IsNullOrWhiteSpace(EmailToDelete))
+        {
+            var (isSuccess, message) = await AdminManagement.DeleteAdmin(EmailToDelete);
+            if (isSuccess)
+            {
+                admins.RemoveAll(a => a.Email == EmailToDelete);
+            }
+
+            EmailToDelete = string.Empty;
+            showDeleteModal = false;
+
+            await ShowMessage(message, isSuccess ? "alert-success" : "alert-danger");
+        }
+    }
+
+    
+
+    private void ShowForm()
+    {
+        Email = string.Empty;
+        showCompanyForm = true;
+    }
+
+    private void HideForm()
+    {
+        Email = string.Empty;
+        showCompanyForm = false;
+    }
+
+
+    private void ShowDeleteForm()
+    {
+        Email = string.Empty;
+        DeleteForm = true;
+    }
+
+    private void HideDeleteForm()
+    {
+        Email = string.Empty;
+        DeleteForm = false;
+    }
+
+    public class DeleteAdminDto
+    {
+        public string Email { get; set; } = string.Empty;
+    }
+
+    private void SelectCompany(GetCompanyDto company)
+    {
+        selectedCompanyId = company.CompanyId;
+        selectedCompanyName = company.CompanyName;
+    }
+
+}
