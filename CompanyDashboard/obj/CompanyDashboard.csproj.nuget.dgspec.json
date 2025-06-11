@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\CompanyDashboard.csproj": {}
+    "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\CompanyDashboard.csproj": {}
   },
   "projects": {
-    "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\CompanyDashboard.csproj": {
+    "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\CompanyDashboard.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\CompanyDashboard.csproj",
+        "projectUniqueName": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\CompanyDashboard.csproj",
         "projectName": "CompanyDashboard",
-        "projectPath": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\CompanyDashboard.csproj",
+        "projectPath": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\CompanyDashboard.csproj",
         "packagesPath": "C:\\Users\\max\\.nuget\\packages\\",
-        "outputPath": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\obj\\",
+        "outputPath": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\max\\AppData\\Roaming\\NuGet\\NuGet.Config",

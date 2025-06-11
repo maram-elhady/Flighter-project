@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <parameters>
   <parameter name="IIS Web Application Name" description="" value="site20313" tags="IisApp">
-    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\Flight\ 4u\\src\\Src\ Flighter\(\.Net\)\\CompanyDashboard\\obj\\Release\\net8\.0\\browser-wasm\\PubTmp\\Out\\$" />
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^D:\\Fliighter\ piblic\ release\\11\ Jun\\CompanyDashboard\\obj\\Release\\net8\.0\\browser-wasm\\PubTmp\\Out\\$" />
   </parameter>
 </parameters>

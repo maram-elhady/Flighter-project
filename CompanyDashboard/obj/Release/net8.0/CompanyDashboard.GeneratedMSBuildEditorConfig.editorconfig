@@ -13,59 +13,59 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = browser
 build_property.RootNamespace = CompanyDashboard
 build_property.RootNamespace = CompanyDashboard
-build_property.ProjectDir = D:\publish day\src\Src Flighter(.Net)\CompanyDashboard\
+build_property.ProjectDir = D:\Fliighter piblic release\11 Jun\CompanyDashboard\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = false
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = D:\publish day\src\Src Flighter(.Net)\CompanyDashboard
+build_property.MSBuildProjectDirectory = D:\Fliighter piblic release\11 Jun\CompanyDashboard
 build_property._RazorSourceGeneratorDebug = 
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/App.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/Layout/AuthLayout.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/Layout/AuthLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XEF1dGhMYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/Layout/RedirectToLogin.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/Layout/RedirectToLogin.razor]
 build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XFJlZGlyZWN0VG9Mb2dpbi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/Pages/Bookings.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/Pages/Bookings.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQm9va2luZ3MucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/Pages/Company.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/Pages/Company.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcGFueS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/Pages/Home.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/Pages/Home.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/Pages/Login.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/Pages/Login.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/Pages/Tickets.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/Pages/Tickets.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGlja2V0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/Pages/Users.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/Pages/Users.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXNlcnMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/_Imports.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/Layout/MainLayout.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-ft039z0f5o
 
-[D:/publish day/src/Src Flighter(.Net)/CompanyDashboard/Layout/NavMenu.razor]
+[D:/Fliighter piblic release/11 Jun/CompanyDashboard/Layout/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-09k6fozqo1

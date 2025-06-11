@@ -11,18 +11,66 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
-            <div><button class="btn btn-danger" @onclick="Logout">Logout</button></div>
+        <div class="top-row px-4 d-flex justify-content-end align-items-center gap-3">
+            
+            <div class="position-relative user-info-container">
+                <i class="bi bi-person-circle text-primary" style="font-size: 1.6rem;"></i>
+                <div class="user-tooltip">
+                    @if (adminInfo != null)
+                    {
+                        <div>@* <strong>Email:</strong> *@ @adminInfo.Email</div>
+                        
+                    }
+                </div>
+            </div>
+
+            <!-- Logout Button -->
+            <button class="btn btn-danger btn-sm" @onclick="Logout">Logout</button>
         </div>
+
 
         <article class="content px-4">
             @Body
         </article>
     </main>
 </div>
+<style>
+    .user-info-container {
+        position: relative;
+        cursor: pointer;
+    }
 
+    .user-tooltip {
+        position: absolute;
+        top: 110%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fff;
+        border: 1px solid #dee2e6;
+        padding: 8px 12px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        white-space: nowrap;
+        z-index: 10;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        pointer-events: none;
+    }
+
+    .user-info-container:hover .user-tooltip {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+</style>
 @code {
     private string userName = "Flighters";
+    private AdminInfo? adminInfo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        adminInfo = await AccountManagement.GetUserInfo();
+    }
 
     private async Task Logout()
     {
@@ -31,5 +79,5 @@
         Navigation.NavigateTo("/login", forceLoad: true);
     }
     
-
+    
 }

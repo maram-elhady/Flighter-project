@@ -49,7 +49,7 @@ namespace CompanyDashboard.Pages
             {
                 await InvokeAsync(async () =>
                 {
-                    await LoadTicketsData();
+                    await LoadTicketsData(selectedFilterType);
                     StateHasChanged();
                 });
             }, null, TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(10));

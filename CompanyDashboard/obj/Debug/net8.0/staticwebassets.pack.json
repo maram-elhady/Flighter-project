@@ -1,51 +1,51 @@
 {
   "Files": [
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\bin\\Debug\\net8.0\\wwwroot\\_framework\\blazor.webassembly.js",
       "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js"
     },
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\obj\\Debug\\net8.0\\compressed\\dlp3vc6wd1.gz",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\obj\\Debug\\net8.0\\compressed\\dlp3vc6wd1.gz",
       "PackagePath": "staticwebassets\\_framework\\blazor.webassembly.js.gz"
     },
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\obj\\Debug\\net8.0\\scopedcss\\bundle\\CompanyDashboard.styles.css",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\obj\\Debug\\net8.0\\scopedcss\\bundle\\CompanyDashboard.styles.css",
       "PackagePath": "staticwebassets\\CompanyDashboard.styles.css"
     },
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\Json\\appsettings.Development.json",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\wwwroot\\Json\\appsettings.Development.json",
       "PackagePath": "staticwebassets\\Json\\appsettings.Development.json"
     },
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\Json\\appsettings.Production.json",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\wwwroot\\Json\\appsettings.Production.json",
       "PackagePath": "staticwebassets\\Json\\appsettings.Production.json"
     },
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\css\\app.css",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\wwwroot\\css\\app.css",
       "PackagePath": "staticwebassets\\css\\app.css"
     },
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css"
     },
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\wwwroot\\css\\bootstrap\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\css\\bootstrap\\bootstrap.min.css.map"
     },
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\favicon.png",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\wwwroot\\favicon.png",
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\icon-192.png",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\wwwroot\\icon-192.png",
       "PackagePath": "staticwebassets\\icon-192.png"
     },
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\index.html",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\wwwroot\\index.html",
       "PackagePath": "staticwebassets\\index.html"
     },
     {
-      "Id": "D:\\Flighter f\\Src Flighter(.Net)\\CompanyDashboard\\wwwroot\\sample-data\\weather.json",
+      "Id": "D:\\Fliighter piblic release\\11 Jun\\CompanyDashboard\\wwwroot\\sample-data\\weather.json",
       "PackagePath": "staticwebassets\\sample-data\\weather.json"
     },
     {

@@ -102,8 +102,26 @@ namespace CompanyDashboard.Identity
             await _httpClient.PostAsync("Dashboard/logout", emptyContent);
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
-       
-    
 
-}
+        public async Task<AdminInfo?> GetUserInfo()
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync("Dashboard/info");
+                if (response.IsSuccessStatusCode)
+                {
+                    return await response.Content.ReadFromJsonAsync<AdminInfo>();
+                }
+
+                return null;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+
+
+    }
 }

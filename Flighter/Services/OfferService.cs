@@ -24,6 +24,7 @@ namespace Flighter.Services
                 .Include(t => t.classType)
                 .Where(t =>
                     t.availableSeats > 0 &&
+                    t.seats.Any(fs => !fs.isBooked)&&
                     t.offer_percentage != "0" &&
                     t.offer_percentage != null &&
                     t.offer_percentage != ""
@@ -120,7 +121,8 @@ namespace Flighter.Services
                 .Include(t => t.classType)
                 .Where(t =>
                     t.offer_percentage == offerPercentage &&
-                    t.availableSeats > 0
+                    t.availableSeats > 0 &&
+                    t.seats.Any(fs => !fs.isBooked)
                 )
                 .Select(t => new
                 {
